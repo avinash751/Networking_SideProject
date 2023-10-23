@@ -388,6 +388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 718671942}
   - component: {fileID: 718671943}
+  - component: {fileID: 718671944}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -417,13 +418,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718671941}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb632fe5f9175504a9a2934de65bc084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tickRate: 1
-  isCalled: 0
+--- !u!114 &718671944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718671941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d702da2f7a418c64181a28e51e5906be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickRate: 1
+  prefabToSpawn: {fileID: 2343723722980525051, guid: feecfca97ba15fa47a8853b0ebc7f3ae,
+    type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +498,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1546318802}
   - component: {fileID: 1546318801}
+  - component: {fileID: 1546318803}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -497,7 +513,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546318800}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb891358f44172b48a97d99528ff5ee3, type: 3}
   m_Name: 
@@ -519,6 +535,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1546318803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546318800}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02dab8504082e034b9599ad5044a084a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickRate: 1
+  isCalled: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

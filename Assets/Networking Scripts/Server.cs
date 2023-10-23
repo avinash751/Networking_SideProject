@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Net;
-using System.Threading;
 using UnityEngine;
 using NetworkingLibrary;
-using System.Text;
 using System.Collections.Generic;
 
 namespace Server
 {
-    internal class Server : MonoBehaviour
+    public  class Server : MonoBehaviour
     {
         [SerializeField] float tickRate;
-        [SerializeField] bool isCalled;
+        protected bool isCalled;
+        protected List<Socket> clients = new List<Socket>();
+        protected Socket queueSocket;
 
-        List<Socket> clients = new List<Socket>();
-        Socket queueSocket;
 
-
-        private void Start()
+        protected virtual void Start()
         {
             isCalled = false;
             queueSocket = new Socket(
@@ -55,13 +52,16 @@ namespace Server
             for (int i = 0; i < clients.Count; i++)
             {
 
-                Debug.Log("Client is conected to server, Sending data to client");
-
-                //byte[] buffer = Encoding.ASCII.GetBytes("Hello from server");
-                //clients[i].Send(buffer);
-                byte[] serializedPosition = new PositionPacket(new Vector3(1, 2, 3)).SerializePosition();
-                clients[i].Send(serializedPosition);    
+                Debug.Log("Client is connected to server, Sending data to client");
+                SendPacket(i);
             }
+        }
+
+
+        protected virtual void SendPacket(int _clientIndex)
+        {
+            byte[] serializedPosition = new PositionPacket(new Vector3(1, 2, 3)).SerializePosition();
+            clients[_clientIndex].Send(serializedPosition);
         }
 
         private void TryToAcceptClient(Socket queueSocket)

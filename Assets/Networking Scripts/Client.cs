@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Client
 {
-    internal class Client : MonoBehaviour
+    public  class Client : MonoBehaviour
     {
         [SerializeField] float tickRate;
         [SerializeField] bool isCalled;
-        Socket socket;
+        protected Socket socket;
 
 
         private void Start()
@@ -57,12 +57,14 @@ namespace Client
             byte[] buffer = new byte[1024];
             socket.Receive(buffer);
 
-            //string data = Encoding.ASCII.GetString(buffer);
-            //Debug.Log(data);
-
             BasePacket _basePacket = new BasePacket();
             _basePacket = _basePacket.DeserializePacketType(buffer);
 
+            CheckAndReceivePacket(buffer, _basePacket);
+        }
+
+        protected virtual void CheckAndReceivePacket(byte[] buffer, BasePacket _basePacket)
+        {
             if (_basePacket.packetType == BasePacket.PacketType.Position)
             {
                 PositionPacket positionPacket = new PositionPacket();
@@ -70,6 +72,7 @@ namespace Client
                 Debug.Log(positionPacket.position);
             }
         }
+
         void CallAgain()
         {
             isCalled = false;

@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class InstantiationPacket : BasePacket
 {
-    string prefabName;
-    Vector3 position;
-    Quaternion rotation;
+    public string prefabName;
+    public Vector3 position;
+    public Quaternion rotation;
 
-    InstantiationPacket()
+    public InstantiationPacket()
     {
         prefabName = string.Empty;
         position = Vector3.zero;
@@ -24,7 +24,7 @@ public class InstantiationPacket : BasePacket
         rotation = _rotation;
     }
 
-    public byte[] SerializePosition()
+    public byte[] SerializeInstantiationData()
     {
         SerializePacketType();
 
@@ -42,7 +42,7 @@ public class InstantiationPacket : BasePacket
         return writeMemoryStream.ToArray();
     }
 
-    public InstantiationPacket DeserializePosition(byte[] _buffer)
+    public InstantiationPacket DeserializeInstantiationdata(byte[] _buffer)
     {
         DeserializePacketType(_buffer);
 
