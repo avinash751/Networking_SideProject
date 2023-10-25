@@ -7,12 +7,15 @@ using System.Collections.Generic;
 
 namespace Server
 {
-    public  class Server : MonoBehaviour
+    public class Server : MonoBehaviour
     {
         [SerializeField] float tickRate;
         protected bool isCalled;
         protected List<Socket> clients = new List<Socket>();
         protected Socket queueSocket;
+
+        public static Func<int> ClientIDGenerated;
+        public static Action<int, Socket> ClientAdded;
 
 
         protected virtual void Start()
@@ -40,35 +43,22 @@ namespace Server
             if (isCalled) { return; }
             isCalled = true;
 
-            TryToAcceptClient(queueSocket);
-            SendDataToClient();
+            TryToAcceptClient(queueSocket, out int _clientId);
+            SendDataToClient(_clientId);
 
             Invoke(nameof(CallAgain), tickRate);
         }
 
-
-        private void SendDataToClient()
+        private void TryToAcceptClient(Socket _queueSocket, out int _generatedID)
         {
-            for (int i = 0; i < clients.Count; i++)
-            {
-
-                Debug.Log("Client is connected to server, Sending data to client");
-                SendPacket(i);
-            }
-        }
-
-
-        protected virtual void SendPacket(int _clientIndex)
-        {
-            byte[] serializedPosition = new PositionPacket(new Vector3(1, 2, 3)).SerializePosition();
-            clients[_clientIndex].Send(serializedPosition);
-        }
-
-        private void TryToAcceptClient(Socket queueSocket)
-        {
+            _generatedID = 0;
             try
             {
-                clients.Add(queueSocket.Accept());
+                clients.Add(_queueSocket.Accept());
+
+                var _clientID = ClientIDGenerated();
+                ClientAdded(_clientID,_queueSocket);
+                _generatedID = _clientID;
             }
             catch (SocketException e)
             {
@@ -78,6 +68,32 @@ namespace Server
                 }
             }
         }
+
+        private void SendDataToClient(int _clientID)
+        {
+            for (int i = 0; i < clients.Count; i++)
+            {
+                SendClientIDPacket(_clientID, i);
+                Debug.Log("Client is connected to server, Sending data to client");
+                SendPacket(i);
+            }
+        }
+
+        void SendClientIDPacket(int _clientID, int _clientIndex)
+        {
+            if(_clientID == 0) { return; }
+            byte[] serializedID = new IDPacket(_clientID).SerializeID();
+            clients[_clientIndex].Send(serializedID);
+
+        }
+
+        protected virtual void SendPacket(int _clientIndex)
+        {
+            byte[] serializedPosition = new PositionPacket(new Vector3(1, 2, 3)).SerializePosition();
+            clients[_clientIndex].Send(serializedPosition);
+        }
+
+
         void CallAgain()
         {
             isCalled = false;

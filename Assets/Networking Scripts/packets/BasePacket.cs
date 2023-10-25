@@ -12,6 +12,7 @@ namespace NetworkingLibrary
             Position,
             Rotation,
             Instantiation,
+            ID,
         }
 
         public PacketType packetType { get; private set; }
@@ -46,7 +47,5 @@ namespace NetworkingLibrary
             packetType = (PacketType)binaryReader.ReadInt32();
             return this;
         }
-
-
     }
 }
