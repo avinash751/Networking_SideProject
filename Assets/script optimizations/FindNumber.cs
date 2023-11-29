@@ -36,14 +36,22 @@ public class FindNumber : MonoBehaviour
     int  FindTargetNumberFromArray()
     {
         int targetnum = SelectARandomNumberFromArray(RandomArray);
-        for (int i = 0; i < RandomArray.Length; i++)
+        int start = 0;
+        int end = RandomArray.Length - 1;
+        int middle = 0;
+
+        if (RandomArray[start] == targetnum) { return start; }
+        else if (RandomArray[end] == targetnum) { return end; }
+
+        while (start - end != -1)
         {
-            if (RandomArray[i] == targetnum)
-            {
-                Debug.Log("Found Number " + targetnum + " At Index " + i);
-                return i;
-            }
-        } 
+            middle = (start + end) / 2;
+
+            if (RandomArray[middle] == targetnum) { return middle; }
+            else if (RandomArray[middle] > targetnum) { end = middle; }
+            else if (targetnum > RandomArray[middle]) { start = middle; }
+        }
+        if (targetnum == RandomArray[start]) { return start; }
         return -1;
     }
 }
