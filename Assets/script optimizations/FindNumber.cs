@@ -23,6 +23,7 @@ public class FindNumber : MonoBehaviour
         for (int i = 0; i < array.Length; i++)
         {
             array[i] = Random.Range(0, array.Length + 1);
+            Array.Sort(array);
         }
     }
     int SelectARandomNumberFromArray(int[] array)
